@@ -1,15 +1,21 @@
 #include <stdio.h>
+#include <fcntl.h>
 
-int main()  
+int main(int argc, char *argv[])  
 {
-	char filename[20];
-	printf("create file name : \n");
-	scanf("%s",filename);
-	if(fopen(filename,"w+") == NULL)
+	int i;
+	if(argc >= 2) 
 	{
-		puts("fail to create.");
-		return 0;
+		for(i = 1; i< argc; i++)
+		{
+			if(open(argv[i],O_CREAT | O_EXCL,10705) == -1){
+				printf("file: %s already created\n",argv[i]);
+			}
+			else
+				printf("create file: %s\n",argv[i]);
+		}
 	}
-	puts("create success.");
+	else
+		printf("please input filename.\n");
 	return 0;
 }
