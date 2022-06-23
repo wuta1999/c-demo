@@ -7,12 +7,17 @@ int main(int argc, char *argv[])
 	int fd;
 	if(argc >= 3) 
 	{
-		if(fd=(open(argv[1],O_CREAT | O_EXCL,10705)) == -1)
+		fd=open(argv[1],O_CREAT | O_EXCL| O_RDWR | O_TRUNC,10705);
+		if(fd == -1)
 			printf("file: %s already created\n",argv[1]);
 		else
 		{
 			printf("create file: %s\n",argv[1]);
-			write(fd,argv[2],strlen(argv[2]));
+			if(write(fd,argv[2],strlen(argv[2])) != strlen(argv[2]))
+			{
+				printf("write error\n");
+
+			}
 			close(fd);
 			
 		}
