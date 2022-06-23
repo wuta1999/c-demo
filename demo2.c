@@ -1,25 +1,24 @@
 #include <stdio.h>
+#include <fcntl.h>
+#include <string.h>
 
-int main() 
+int main(int argc, char *argv[])  
 {
-	char filename[20];
-	char ch;
-	FILE *fp;
-	printf("create file : \n");
-	scanf("%s",filename);
-	fp = fopen(filename,"w+");
-	if(fp == NULL)
+	int fd;
+	if(argc >= 3) 
 	{
-		puts("fail to create.");
-		return 0;
+		if(fd=(open(argv[1],O_CREAT | O_EXCL,10705)) == -1)
+			printf("file: %s already created\n",argv[1]);
+		else
+		{
+			printf("create file: %s\n",argv[1]);
+			write(fd,argv[2],strlen(argv[2]));
+			close(fd);
+			
+		}
+		
 	}
-	printf("please input some message(type '#' exit) : \n");
-	ch = getchar();
-	while(ch != '#') 
-	{
-		fputc(ch,fp);
-		ch = getchar();
-	}
-	fclose(fp);
+	else
+		printf("please input filename and some content.\n");
 	return 0;
 }
