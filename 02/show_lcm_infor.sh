@@ -2,8 +2,9 @@
 
 if [ $1 ]
 then
-	kernel_version=$(find ./device/*/*${1}*/ -type f -name "ProjectConfig.mk" | xargs grep "LINUX_KERNEL_VERSION" | cut -d ' ' -f 3)
-	for f in $(find ./${kernel_version}/arch/arm/configs/ -type f -name "*${1}*_defconfig")
+	modelName=$(echo $1 | tr a-z A-Z)
+	kernel_version=$(find ./device/*/*${modelName}*/ -type f -name "ProjectConfig.mk" | xargs grep "LINUX_KERNEL_VERSION" | cut -d ' ' -f 3)
+	for f in $(find ./${kernel_version}/*/ -type f -name "*${modelName}*_defconfig")
 	do
 		if [[ $f == *debug* ]]
 		then
@@ -15,6 +16,7 @@ then
 			module=`echo $a | cut -d '_' -f 2`
 			lane=`echo $a | cut -d '_' -f 3`
 			resolution=`echo $a | cut -d '_' -f 4`
+
 			echo LCM_NAME is : $a
 			echo IC is : $ic
 			echo Module is : $module

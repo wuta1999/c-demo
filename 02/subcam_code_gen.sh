@@ -6,12 +6,13 @@ dPaths[2]=./vendor/mediatek/proprietary/custom/mt6739/hal/imgsensor_metadata/
 
 if [ $1 ]
 then
+	modelName=$1
 	for d in ${dPaths[@]} 
 	do
-		oriDirPath=$(find ${d} -type d -name "${1}*")
+		oriDirPath=$(find ${d} -type d -name "${modelName}*")
 		if [ $oriDirPath ] 
 		then 
-			destDirPath=${d}${1}s${oriDirPath##*$1}	
+			destDirPath=${d}${modelName}s${oriDirPath##*${modelName}}	
 			cp -r $oriDirPath $destDirPath
 
 			homePath=$(pwd)
@@ -19,9 +20,9 @@ then
 
 			for f in $(ls .)
 			do
-				upStr=$(echo ${1} | tr a-z A-Z )
-				sed -i $f -e "/${1}/{s/${1}/${1}s/g}" -e "/${upSet}/{s/${upStr}/${upStr}S/g}"
-				rename "s/${1}/${1}s/" "${f}"
+				upStr=$(echo ${modelName} | tr a-z A-Z )
+				sed -i $f -e "/${modelName}/{s/${modelName}/${modelName}s/g}" -e "/${upStr}/{s/${upStr}/${upStr}S/g}"
+				rename "s/${modelName}/${modelName}s/" "${f}"
 			done
 			cd ${homePath}
 		fi
