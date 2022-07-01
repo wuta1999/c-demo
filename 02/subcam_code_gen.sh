@@ -21,7 +21,7 @@ then
 			for f in $(ls .)
 			do
 				upStr=$(echo ${modelName} | tr a-z A-Z )
-				sed -i $f -e "/${modelName}/{s/${modelName}/${modelName}s/g}" -e "/${upStr}/{s/${upStr}/${upStr}S/g}"
+				sed -i $f -e "s/${modelName}/${modelName}s/g" -e "s/${upStr}/${upStr}S/g"
 				rename "s/${modelName}/${modelName}s/" "${f}"
 			done
 			cd ${homePath}
